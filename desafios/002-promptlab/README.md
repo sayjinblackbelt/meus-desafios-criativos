@@ -16,6 +16,8 @@ O PromptLab é uma aplicação independente, desenvolvida com HTML, CSS e JavaSc
 - Geração do texto final com orientações de qualidade;
 - Avaliação estrutural heurística V4 de 0 a 100, com oito dimensões, detecção limitada de expressões genéricas e recomendações;
 - Três casos de teste embutidos: fraco, intermediário e estruturado;
+- Histórico local opcional de até 20 avaliações;
+- Comparação entre duas versões, com variação de pontuação e campos alterados;
 - Preparação de auditoria semântica: gera uma instrução para copiar e executar em uma IA externa, sem envio automático dos dados;
 - Exemplo preenchido para análise de feedbacks bancários;
 - Cópia para a área de transferência;
@@ -45,7 +47,7 @@ A V4 aprimora a avaliação estrutural sem alegar compreensão semântica. O for
 
 Foram incluídos três casos de teste carregáveis (fraco, intermediário e estruturado) para comparação manual e regressão exploratória. A detecção de vaguidade é baseada em padrões simples, pode gerar falsos positivos e não substitui auditoria humana ou avaliação por IA.
 
-## Decisões técnicas
+## Evolução V5 — histórico local e comparação\n\nA V5 permite salvar explicitamente até 20 avaliações no armazenamento local do navegador (`localStorage`). Cada registro guarda data, pontuação, campos preenchidos e prompt gerado. O usuário pode selecionar duas versões e comparar pontuação e alterações nos campos.\n\nO histórico não é sincronizado nem enviado para servidores. Ele permanece no navegador e dispositivo utilizados; limpar dados do navegador também pode removê-lo. O botão de apagar histórico solicita confirmação. Não salve prompts com dados pessoais ou confidenciais.\n\nA variação de pontuação mede somente a heurística estrutural. Não prova que o prompt melhorou semanticamente nem que a resposta de uma IA ficou melhor. A validação deve incluir testes com a mesma tarefa e comparação dos resultados gerados.\n\n## Decisões técnicas
 | Decisão | Justificativa |
 |---|---|
 | HTML, CSS e JavaScript puros | Reduzir dependências e facilitar a leitura do código |
@@ -67,6 +69,6 @@ Este desafio demonstra como transformar princípios de engenharia de prompt em u
 
 ## Registro de desenvolvimento
 - **Data:** 30/10/2026
-- **Versão:** 4.0
+- **Versão:** 5.0
 - **Stack:** HTML5, CSS3 e JavaScript
-- **Status:** V4 implementada no repositório; validação funcional pendente em navegador móvel e desktop.
+- **Status:** V5 implementada no repositório; validação funcional pendente em navegador móvel e desktop.
