@@ -37,7 +37,7 @@ el("evaluate").addEventListener("click",()=>{
  ];
  let score=0;const results=[];
  checks.forEach(([id,name,weight,min,tip])=>{
-  const v=val(id);let points=v.length>=min?weight:v.length?Math.round(weight*.45):0;
+  const v=val(id);let points=id==="input"&&!v?weight:(v.length>=min?weight:v.length?Math.round(weight*.45):0);
   if(v.length>100&&id!=="format")points=Math.min(weight,points+Math.ceil(weight*.15));
   score+=points;results.push({name,points,weight,tip,ok:points===weight});
  });
