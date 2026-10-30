@@ -11,12 +11,12 @@
 <label for="input">Dados ou material de entrada <span class="optional">(opcional)</span></label><textarea id="input" placeholder="Cole dados, texto, exemplos ou descreva os materiais disponíveis."></textarea>
 <label for="audience">Público ou destinatário</label><input class="field" id="audience" placeholder="Ex.: equipe de atendimento, estudantes de 12 anos...">
 <label for="constraints">Restrições e cuidados</label><textarea id="constraints" placeholder="O que evitar? Limites, privacidade, fontes permitidas, tom..."></textarea>
-<label for="format">Formato da resposta</label><select id="format"><option>Estrutura em tópicos</option><option>Relatório com seções</option><option>Tabela comparativa</option><option>Passo a passo</option><option>JSON válido</option><option>Texto corrido</option><option>Plano de ação</option></select>
+<label for="format">Formato da resposta</label><select id="format"><option value="" selected disabled>Selecione um formato</option><option>Estrutura em tópicos</option><option>Relatório com seções</option><option>Tabela comparativa</option><option>Passo a passo</option><option>JSON válido</option><option>Texto corrido</option><option>Plano de ação</option></select>
 <label for="criteria">Critérios de qualidade</label><textarea id="criteria" placeholder="Como avaliar se a resposta ficou boa? Ex.: precisão, evidências, clareza..."></textarea>
-<div class="actions"><button class="btn primary" id="generate">Gerar prompt</button><button class="btn" id="evaluate">Avaliar qualidade</button><button class="btn" id="semantic">Preparar auditoria semântica</button><button class="btn" id="example">Carregar exemplo</button><button class="btn" id="clear">Limpar</button></div>
+<div class="actions"><button class="btn" id="testWeak">Teste: fraco</button><button class="btn" id="testMedium">Teste: intermediário</button><button class="btn" id="testStrong">Teste: estruturado</button></div><div class="actions"><button class="btn primary" id="generate">Gerar prompt</button><button class="btn" id="evaluate">Avaliar qualidade</button><button class="btn" id="semantic">Preparar auditoria semântica</button><button class="btn" id="example">Carregar exemplo</button><button class="btn" id="clear">Limpar</button></div>
 <div class="tip"><strong>Princípio:</strong> um bom prompt não é apenas longo. Ele explicita intenção, contexto, limites e o que contará como uma boa resposta.</div></section>
 <section class="panel"><h2>02 / Resultado</h2><p class="hint">Revise o texto gerado. Você pode editar os campos e gerar novamente.</p><div id="output" class="output empty">Seu prompt estruturado aparecerá aqui.</div><div class="count" id="count">0 caracteres</div>
-<div class="actions"><button class="btn primary" id="copy">Copiar prompt</button><button class="btn" id="download">Baixar .txt</button></div><div class="status" id="status" role="status" aria-live="polite"></div><section class="evaluation" id="evaluation" aria-live="polite"><strong>03 / Avaliação heurística</strong><p class="hint" style="margin:6px 0 0">Preencha os campos e toque em “Avaliar qualidade” para receber uma pontuação e recomendações.</p><div id="evalResult" hidden><div class="scoreline"><div class="score" id="score">0</div><div style="flex:1"><strong id="scoreLabel">—</strong><div class="meter"><span id="meterFill"></span></div></div></div><ul class="eval-list" id="evalList"></ul><div class="rubric">A pontuação estrutural considera presença e extensão dos campos. Não representa compreensão semântica por IA.</div><div id="semanticBox" hidden style="margin-top:16px"><strong>04 / Auditoria semântica externa</strong><p class="hint" style="margin:6px 0">Copie a instrução abaixo e execute em uma IA de sua preferência. O PromptLab não envia seus dados.</p><textarea id="semanticText" rows="12" readonly></textarea><div class="actions"><button class="btn primary" id="copySemantic">Copiar instrução de auditoria</button></div></div></div></section><div class="tip"><strong>Antes de usar:</strong> remova dados pessoais, confira fatos e fontes e teste o prompt com um exemplo pequeno. A ferramenta não envia informações para nenhum servidor.</div></section></div>
+<div class="actions"><button class="btn primary" id="copy">Copiar prompt</button><button class="btn" id="download">Baixar .txt</button></div><div class="status" id="status" role="status" aria-live="polite"></div><section class="evaluation" id="evaluation" aria-live="polite"><strong>03 / Avaliação estrutural V4</strong><p class="hint" style="margin:6px 0 0">Escolha um caso de teste ou preencha os campos e toque em “Avaliar qualidade” para receber uma pontuação e recomendações.</p><div id="evalResult" hidden><div class="scoreline"><div class="score" id="score">0</div><div style="flex:1"><strong id="scoreLabel">—</strong><div class="meter"><span id="meterFill"></span></div></div></div><ul class="eval-list" id="evalList"></ul><div class="rubric">A pontuação estrutural considera presença e extensão dos campos. Não representa compreensão semântica por IA.</div><div id="semanticBox" hidden style="margin-top:16px"><strong>04 / Auditoria semântica externa</strong><p class="hint" style="margin:6px 0">Copie a instrução abaixo e execute em uma IA de sua preferência. O PromptLab não envia seus dados.</p><textarea id="semanticText" rows="12" readonly></textarea><div class="actions"><button class="btn primary" id="copySemantic">Copiar instrução de auditoria</button></div></div></div></section><div class="tip"><strong>Antes de usar:</strong> remova dados pessoais, confira fatos e fontes e teste o prompt com um exemplo pequeno. A ferramenta não envia informações para nenhum servidor.</div></section></div>
 <div class="footer">PromptLab · Desafio 002 · HTML, CSS e JavaScript puro · Execução local no navegador</div></main>
 <script>
 const ids=["role","goal","context","input","audience","constraints","format","criteria"];const el=id=>document.getElementById(id);const val=id=>el(id).value.trim();let generated="";
@@ -25,34 +25,31 @@ function generate(){if(!val("goal")){el("status").textContent="Preencha o objeti
 el("generate").addEventListener("click",generate);
 
 el("evaluate").addEventListener("click",()=>{
- const checks=[
- ["role","Papel da IA",10,12,"Defina uma especialidade e uma função claras para a IA."],
- ["goal","Objetivo",22,45,"Descreva uma ação concreta, o objeto da tarefa e o resultado esperado."],
- ["context","Contexto",16,45,"Acrescente cenário, finalidade e informações relevantes."],
- ["input","Dados de entrada",10,20,"Informe quais dados, documentos ou exemplos estarão disponíveis."],
- ["audience","Público-alvo",8,10,"Identifique quem usará a resposta e o nível de conhecimento esperado."],
- ["constraints","Restrições e cuidados",14,35,"Defina limites, privacidade, fontes e como lidar com incertezas."],
- ["format","Formato",10,1,"Escolha o formato mais útil para a tarefa."],
- ["criteria","Critérios de qualidade",10,35,"Defina como reconhecer uma boa resposta: precisão, evidências e clareza."]
- ];
+ const checks=[["role","Papel da IA",10,18,"Defina especialidade e função."],["goal","Objetivo",22,55,"Especifique ação, objeto, finalidade e resultado."],["context","Contexto",16,55,"Informe cenário e condições relevantes."],["input","Dados de entrada",10,25,"Descreva os dados ou materiais disponíveis."],["audience","Público-alvo",8,18,"Identifique destinatário e nível de conhecimento."],["constraints","Restrições e cuidados",14,45,"Defina limites, privacidade e incertezas."],["format","Formato",10,1,"Selecione deliberadamente o formato."],["criteria","Critérios de qualidade",10,45,"Defina critérios verificáveis."]];
+ const vague=[/faça uma análise|analise os dados|me dê sugestões|dê sugestões|fale sobre|explique melhor|ajude com isso|da melhor forma possível/i,/etc\\.?|e coisas do tipo/i];
  let score=0;const results=[];
- checks.forEach(([id,name,weight,min,tip])=>{
-  const v=val(id);let points=id==="input"&&!v?weight:(v.length>=min?weight:v.length?Math.round(weight*.45):0);
-  if(v.length>100&&id!=="format")points=Math.min(weight,points+Math.ceil(weight*.15));
-  score+=points;results.push({name,points,weight,tip,ok:points===weight});
- });
- score=Math.min(100,score);
- const label=score>=85?"Muito bem estruturado":score>=70?"Boa base — refinamentos recomendados":score>=50?"Estrutura parcial — há lacunas importantes":"Precisa de mais contexto e definição";
- el("score").textContent=score;el("scoreLabel").textContent=label;el("meterFill").style.width=score+"%";el("evalResult").hidden=false;
- const list=el("evalList");list.replaceChildren();
- results.forEach(x=>{const li=document.createElement("li");li.className=x.ok?"eval-good":x.points===0?"eval-bad":"eval-warn";const strong=document.createElement("strong");strong.textContent=x.name+": "+x.points+"/"+x.weight;li.append(strong,document.createTextNode(" — "+(x.ok?"Critério atendido.":x.tip)));list.append(li)});
- el("status").textContent="Avaliação concluída. Use as recomendações para refinar o prompt.";
+ checks.forEach(([id,name,weight,min,tip])=>{const v=val(id);let points=0,note="";
+ if(id==="input"&&!v){points=weight;note="Campo opcional não penalizado."}
+ else if(id==="format"){points=v?weight:0;if(!v)note=tip}
+ else if(v){points=v.length>=min?weight:Math.round(weight*.45);if(vague.some(rx=>rx.test(v))){points=Math.max(0,points-Math.ceil(weight*.35));note="Expressão genérica detectada; especifique melhor."}else if(v.length<min)note=tip;else note="Completude estrutural atendida; semântica requer revisão."}
+ else note=tip;
+ score+=points;results.push({name,points,weight,note,ok:points===weight&&!note.startsWith("Expressão")});});
+ score=Math.min(100,score);const label=score>=85?"Boa completude estrutural":score>=70?"Estrutura razoável — revise os pontos":score>=50?"Estrutura parcial — lacunas importantes":"Estrutura insuficiente";
+ el("score").textContent=score;el("scoreLabel").textContent=label;el("meterFill").style.width=score+"%";el("evalResult").hidden=false;const list=el("evalList");list.replaceChildren();
+ results.forEach(x=>{const li=document.createElement("li");li.className=x.ok?"eval-good":x.points===0?"eval-bad":"eval-warn";const strong=document.createElement("strong");strong.textContent=x.name+": "+x.points+"/"+x.weight;li.append(strong,document.createTextNode(" — "+(x.note||"Critério estrutural atendido.")));list.append(li)});
+ el("status").textContent="Avaliação estrutural V4 concluída. A nota não representa compreensão semântica.";
 });
-
-
-el("semantic").addEventListener("click",()=>{
+const testCases={
+weak:{role:"",goal:"Faça uma análise dos dados e me dê sugestões.",context:"",input:"",audience:"",constraints:"",format:"",criteria:""},
+medium:{role:"Analista de dados",goal:"Analise as vendas do último trimestre e identifique os produtos com melhor desempenho.",context:"A empresa quer entender os resultados comerciais para planejar o próximo trimestre.",input:"Planilha com vendas por produto, quantidade e faturamento.",audience:"Equipe comercial",constraints:"Não invente dados e sinalize informações ausentes.",format:"Estrutura em tópicos",criteria:"Clareza e recomendações úteis."},
+strong:{role:"Atue como analista de inteligência comercial com experiência em varejo.",goal:"Analise as vendas do último trimestre por produto e região, identifique variações relevantes em faturamento e volume, compare com o trimestre anterior e recomende três ações priorizadas para o próximo ciclo.",context:"A análise apoiará a reunião de planejamento comercial. Considere sazonalidade, diferenças regionais e disponibilidade de estoque quando esses dados estiverem presentes.",input:"Serão fornecidas duas planilhas anonimizadas: vendas do trimestre atual e do anterior, com produto, região, unidades, faturamento e estoque disponível.",audience:"Gerência comercial e responsáveis regionais, com conhecimento intermediário de indicadores.",constraints:"Não invente valores. Informe dados ausentes, não confunda correlação com causalidade e identifique limitações de comparação. Priorize recomendações sustentadas por indicadores.",format:"Relatório com seções",criteria:"Apresente cálculos rastreáveis, comparação percentual, evidências para cada conclusão e ações com impacto esperado, prioridade e indicador de acompanhamento."}};
+function loadTestCase(key){Object.entries(testCases[key]).forEach(([id,value])=>el(id).value=value);el("evalResult").hidden=true;el("semanticBox").hidden=true;generated="";el("status").textContent="Caso carregado. Execute a avaliação estrutural.";el("output").textContent="Gere o prompt para visualizar o resultado.";el("output").classList.add("empty");el("count").textContent="0 caracteres"}
+el("testWeak").addEventListener("click",()=>loadTestCase("weak"));
+el("testMedium").addEventListener("click",()=>loadTestCase("medium"));
+el("testStrong").addEventListener("click",()=>loadTestCase("strong"));
+\nel("semantic").addEventListener("click",()=>{
  const labels={role:"Papel da IA",goal:"Objetivo",context:"Contexto",input:"Dados de entrada",audience:"Público-alvo",constraints:"Restrições e cuidados",format:"Formato da resposta",criteria:"Critérios de qualidade"};
- const filled=ids.map(id=>labels[id]+": "+(val(id)||"[NÃO INFORMADO]")).join("\\n\\n");
+ const filled=ids.map(id=>labels[id]+": "+(val(id)||"[NÃO INFORMADO]")).join("\n\n");
  const audit="Atue como especialista em engenharia de prompts. Faça uma auditoria semântica do prompt abaixo. Não atribua nota apenas porque os campos estão preenchidos. Avalie: (1) clareza e especificidade; (2) coerência entre papel, objetivo e contexto; (3) suficiência das entradas; (4) adequação ao público; (5) restrições operacionais e tratamento de incertezas; (6) adequação do formato; (7) critérios verificáveis; (8) ambiguidades, redundâncias e contradições.\\n\\nApresente: nota de 0 a 100 com justificativa por dimensão, problemas críticos, sugestões priorizadas e uma versão revisada. Se faltar contexto, não invente: indique as perguntas necessárias. Diferencie qualidade estrutural de qualidade semântica.\\n\\nPROMPT A AVALIAR\\n"+filled;
  el("semanticText").value=audit;el("semanticBox").hidden=false;el("status").textContent="Auditoria preparada. Copie a instrução e execute em uma IA externa.";
 });
