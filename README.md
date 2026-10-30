@@ -57,6 +57,15 @@ meus-desafios-criativos/
 
 ## 📚 Desafios
 
+### 002 — PromptLab: Laboratório de Engenharia de Prompts
+
+Aplicação web responsiva para construir prompts estruturados sem API ou dependências externas.
+
+➡️ [Documentação do desafio 002](desafios/002-promptlab/README.md)  
+➡️ [Abrir o código-fonte](desafios/002-promptlab/index.html)
+
+
+
 ### 001 — Análise de Feedback de Clientes Bancários
 
 Desafio de Engenharia de Prompt para orientar uma IA na análise de feedbacks bancários, considerando temas, sentimento, recorrência, urgência, evidências, ações e proteção de dados.
