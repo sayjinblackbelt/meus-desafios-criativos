@@ -14,7 +14,9 @@ O PromptLab é uma aplicação independente, desenvolvida com HTML, CSS e JavaSc
 ### Funcionalidades
 - Formulário para estruturar os elementos de um prompt;
 - Geração do texto final com orientações de qualidade;
-- Avaliação estrutural heurística V4 de 0 a 100, com oito dimensões, detecção limitada de expressões genéricas e recomendações;\n- Três casos de teste embutidos: fraco, intermediário e estruturado;\n- Preparação de auditoria semântica: gera uma instrução para copiar e executar em uma IA externa, sem envio automático dos dados;
+- Avaliação estrutural heurística V4 de 0 a 100, com oito dimensões, detecção limitada de expressões genéricas e recomendações;
+- Três casos de teste embutidos: fraco, intermediário e estruturado;
+- Preparação de auditoria semântica: gera uma instrução para copiar e executar em uma IA externa, sem envio automático dos dados;
 - Exemplo preenchido para análise de feedbacks bancários;
 - Cópia para a área de transferência;
 - Download do prompt em arquivo TXT;
@@ -28,7 +30,22 @@ Abra o arquivo \`index.html\` em um navegador. Não é necessário instalar depe
 
 O avaliador verifica presença e extensão mínima dos campos, atribuindo pesos para papel (10), objetivo (22), contexto (16), dados de entrada (10), público-alvo (8), restrições (14), formato (10) e critérios de qualidade (10). Campos ausentes ou pouco desenvolvidos recebem pontuação parcial ou zero, conforme a regra de cada dimensão. O resultado é uma heurística transparente, executada no navegador; não representa uma avaliação semântica feita por um modelo de IA.
 
-## Evolução V3 — auditoria semântica\n\nA V3 separa duas camadas que não devem ser confundidas:\n\n1. **Avaliação estrutural local:** verifica preenchimento e extensão dos oito campos, sem conexão externa.\n2. **Auditoria semântica assistida por IA:** o botão prepara uma instrução de avaliação que inclui os campos preenchidos e solicita análise de clareza, coerência, ambiguidades, contradições, verificabilidade e recomendações. O usuário copia o texto e o executa manualmente em uma IA de sua preferência.\n\nA auditoria semântica não é executada pelo próprio PromptLab, não altera automaticamente a pontuação estrutural e não transmite dados sem ação do usuário. Recomenda-se anonimizar informações antes de copiar o conteúdo para serviços externos.\n\n## Evolução V4 — calibração estrutural e casos de teste\n\nA V4 aprimora a avaliação estrutural sem alegar compreensão semântica. O formato deixou de vir pré-selecionado: o usuário precisa escolhê-lo, evitando pontuação integral por uma opção automática. A heurística também reduz pontuação quando detecta algumas expressões vagas conhecidas e diferencia completude estrutural de qualidade semântica.\n\nForam incluídos três casos de teste carregáveis (fraco, intermediário e estruturado) para comparação manual e regressão exploratória. A detecção de vaguidade é baseada em padrões simples, pode gerar falsos positivos e não substitui auditoria humana ou avaliação por IA.\n\n## Decisões técnicas
+## Evolução V3 — auditoria semântica
+
+A V3 separa duas camadas que não devem ser confundidas:
+
+1. **Avaliação estrutural local:** verifica preenchimento e extensão dos oito campos, sem conexão externa.
+2. **Auditoria semântica assistida por IA:** o botão prepara uma instrução de avaliação que inclui os campos preenchidos e solicita análise de clareza, coerência, ambiguidades, contradições, verificabilidade e recomendações. O usuário copia o texto e o executa manualmente em uma IA de sua preferência.
+
+A auditoria semântica não é executada pelo próprio PromptLab, não altera automaticamente a pontuação estrutural e não transmite dados sem ação do usuário. Recomenda-se anonimizar informações antes de copiar o conteúdo para serviços externos.
+
+## Evolução V4 — calibração estrutural e casos de teste
+
+A V4 aprimora a avaliação estrutural sem alegar compreensão semântica. O formato deixou de vir pré-selecionado: o usuário precisa escolhê-lo, evitando pontuação integral por uma opção automática. A heurística também reduz pontuação quando detecta algumas expressões vagas conhecidas e diferencia completude estrutural de qualidade semântica.
+
+Foram incluídos três casos de teste carregáveis (fraco, intermediário e estruturado) para comparação manual e regressão exploratória. A detecção de vaguidade é baseada em padrões simples, pode gerar falsos positivos e não substitui auditoria humana ou avaliação por IA.
+
+## Decisões técnicas
 | Decisão | Justificativa |
 |---|---|
 | HTML, CSS e JavaScript puros | Reduzir dependências e facilitar a leitura do código |
