@@ -51,7 +51,7 @@ el("testStrong").addEventListener("click",()=>loadTestCase("strong"));
  const labels={role:"Papel da IA",goal:"Objetivo",context:"Contexto",input:"Dados de entrada",audience:"Público-alvo",constraints:"Restrições e cuidados",format:"Formato da resposta",criteria:"Critérios de qualidade"};
  const filled=ids.map(id=>labels[id]+": "+(val(id)||"[NÃO INFORMADO]")).join("\n\n");
  const audit="Atue como especialista em engenharia de prompts. Faça uma auditoria semântica do prompt abaixo. Não atribua nota apenas porque os campos estão preenchidos. Avalie: (1) clareza e especificidade; (2) coerência entre papel, objetivo e contexto; (3) suficiência das entradas; (4) adequação ao público; (5) restrições operacionais e tratamento de incertezas; (6) adequação do formato; (7) critérios verificáveis; (8) ambiguidades, redundâncias e contradições.\\n\\nApresente: nota de 0 a 100 com justificativa por dimensão, problemas críticos, sugestões priorizadas e uma versão revisada. Se faltar contexto, não invente: indique as perguntas necessárias. Diferencie qualidade estrutural de qualidade semântica.\\n\\nPROMPT A AVALIAR\\n"+filled;
- el("semanticText").value=audit;el("semanticBox").hidden=false;el("status").textContent="Auditoria preparada. Copie a instrução e execute em uma IA externa.";
+ el("evalResult").hidden=false;el("semanticText").value=audit;el("semanticBox").hidden=false;el("status").textContent="Auditoria preparada. Copie a instrução e execute em uma IA externa.";
 });
 el("copySemantic").addEventListener("click",async()=>{
  const t=el("semanticText").value;
