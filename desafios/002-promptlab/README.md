@@ -15,7 +15,7 @@ O PromptLab é uma aplicação independente, desenvolvida com HTML, CSS e JavaSc
 - Formulário para estruturar os elementos de um prompt;
 - Geração do texto final com orientações de qualidade;
 - Avaliação estrutural heurística V4 de 0 a 100, com oito dimensões, detecção limitada de expressões genéricas e recomendações;
-- Três casos de teste embutidos: fraco, intermediário e estruturado;
+- Seis casos de teste: fraco, intermediário, estruturado, longo e vago, contraditório e preenchimento superficial;
 - Histórico local opcional de até 20 avaliações;
 - Comparação entre duas versões, com variação de pontuação e campos alterados;
 - Preparação de auditoria semântica: gera uma instrução para copiar e executar em uma IA externa, sem envio automático dos dados;
@@ -55,7 +55,7 @@ O histórico não é sincronizado nem enviado para servidores. Ele permanece no 
 
 A variação de pontuação mede somente a heurística estrutural. Não prova que o prompt melhorou semanticamente nem que a resposta de uma IA ficou melhor. A validação deve incluir testes com a mesma tarefa e comparação dos resultados gerados.
 
-## Decisões técnicas
+## Evolução V6 — bateria de validação adversarial\n\nA V6 amplia a bateria para seis perfis de prompt e inclui um protocolo de validação manual. Os casos adicionais foram concebidos para investigar três riscos: pontuação inflada por textos longos e vagos; incapacidade de reconhecer contradições; e valorização de campos preenchidos com frases superficiais.\n\nA bateria não é um benchmark científico nem produz uma classificação de referência automática. Ela serve como conjunto exploratório e deve ser aplicada com registro das pontuações, auditoria semântica externa e teste da resposta real produzida para a mesma tarefa.\n\n**Protocolo recomendado:** (1) carregar cada caso; (2) executar a avaliação estrutural; (3) registrar a nota; (4) executar auditoria semântica; (5) gerar respostas com a mesma tarefa e comparar precisão, aderência, utilidade e tratamento de incertezas; (6) registrar falsos positivos e negativos.\n\n## Decisões técnicas
 | Decisão | Justificativa |
 |---|---|
 | HTML, CSS e JavaScript puros | Reduzir dependências e facilitar a leitura do código |
@@ -77,6 +77,6 @@ Este desafio demonstra como transformar princípios de engenharia de prompt em u
 
 ## Registro de desenvolvimento
 - **Data:** 30/10/2026
-- **Versão:** 5.0
+- **Versão:** 6.0
 - **Stack:** HTML5, CSS3 e JavaScript
-- **Status:** V5 implementada no repositório; validação funcional pendente em navegador móvel e desktop.
+- **Status:** V6 implementada no repositório; validação funcional pendente em navegador móvel e desktop.
