@@ -47,7 +47,15 @@ A V4 aprimora a avaliação estrutural sem alegar compreensão semântica. O for
 
 Foram incluídos três casos de teste carregáveis (fraco, intermediário e estruturado) para comparação manual e regressão exploratória. A detecção de vaguidade é baseada em padrões simples, pode gerar falsos positivos e não substitui auditoria humana ou avaliação por IA.
 
-## Evolução V5 — histórico local e comparação\n\nA V5 permite salvar explicitamente até 20 avaliações no armazenamento local do navegador (`localStorage`). Cada registro guarda data, pontuação, campos preenchidos e prompt gerado. O usuário pode selecionar duas versões e comparar pontuação e alterações nos campos.\n\nO histórico não é sincronizado nem enviado para servidores. Ele permanece no navegador e dispositivo utilizados; limpar dados do navegador também pode removê-lo. O botão de apagar histórico solicita confirmação. Não salve prompts com dados pessoais ou confidenciais.\n\nA variação de pontuação mede somente a heurística estrutural. Não prova que o prompt melhorou semanticamente nem que a resposta de uma IA ficou melhor. A validação deve incluir testes com a mesma tarefa e comparação dos resultados gerados.\n\n## Decisões técnicas
+## Evolução V5 — histórico local e comparação
+
+A V5 permite salvar explicitamente até 20 avaliações no armazenamento local do navegador (`localStorage`). Cada registro guarda data, pontuação, campos preenchidos e prompt gerado. O usuário pode selecionar duas versões e comparar pontuação e alterações nos campos.
+
+O histórico não é sincronizado nem enviado para servidores. Ele permanece no navegador e dispositivo utilizados; limpar dados do navegador também pode removê-lo. O botão de apagar histórico solicita confirmação. Não salve prompts com dados pessoais ou confidenciais.
+
+A variação de pontuação mede somente a heurística estrutural. Não prova que o prompt melhorou semanticamente nem que a resposta de uma IA ficou melhor. A validação deve incluir testes com a mesma tarefa e comparação dos resultados gerados.
+
+## Decisões técnicas
 | Decisão | Justificativa |
 |---|---|
 | HTML, CSS e JavaScript puros | Reduzir dependências e facilitar a leitura do código |
